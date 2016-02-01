@@ -83,7 +83,8 @@ module.exports = {
           id: id,
           userData: userData,
           profileData: {},
-          recipesData: []
+          recipesData: [],
+          matchData: {}
         };
         var userQuery = client.query("SELECT * FROM PROFILES as P, UserRecipes as U where P.id = U.profileid and P.id='"+id+"';", function(err, data) {
           if (data.rowCount == 0) {
@@ -106,6 +107,9 @@ module.exports = {
                   'recipeid' :data.recipeid,
                   'created' :data.created
                 });
+              } 
+              if (data.match) {
+                console.log("this will run if there's a match!");
               }
 
               allUserData.profileData.name = data.name;
