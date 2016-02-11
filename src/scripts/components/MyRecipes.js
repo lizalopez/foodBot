@@ -20,6 +20,7 @@ import ListItem from 'material-ui/lib/lists/list-item';
 import { Modal, Button } from 'react-bootstrap';
 import RaisedButton from 'material-ui/lib/raised-button';
 import PhotoUpload from './PhotoUpload'
+import Snackbar from 'material-ui/lib/snackbar';
 
 
 export default class MyRecipes extends React.Component {
@@ -43,9 +44,7 @@ export default class MyRecipes extends React.Component {
         paddingTop: "10px"
       }
     }
-    this.quant = {
 
-    }
     this.button = {
     margin: 12,
     }
@@ -57,15 +56,24 @@ export default class MyRecipes extends React.Component {
 
     this.state = {
       currRecipeId: 0,
-      uploadCount:0
+      uploadCount:0,
+      open: false
     }
     this.increaseUploadCount = this.increaseUploadCount.bind(this);
   }
 
-  handleTouchTap(element) {
-    console.log("inside MyRecipes", element)
-    this.props.openSocialModal(element);
-  }
+  handleTouchTap () {
+    this.setState({
+      open: true,
+    });
+    this.props.addToCart();
+  };
+
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
+  };
 
   increaseUploadCount() {
     this.setState({uploadCount: this.state.uploadCount+1});
@@ -97,7 +105,7 @@ export default class MyRecipes extends React.Component {
           </div>
           <div className="user-info col-xs-6" >
             <div className="user-data row">
-              <div className="user-meals col-xs-4" >
+              <div className="user-meals col-xs-5" >
                 <div className="meals-quant row" >
                   <strong>95</strong>
                 </div>
@@ -105,7 +113,7 @@ export default class MyRecipes extends React.Component {
                   <span>meals</span>
                 </div>
               </div>
-              <div className="user-posts col-xs-4" >
+              <div className="user-posts col-xs-5" >
                 <div className="posts-quant row" >
                   <strong>{this.props.chosenRecipes.length}</strong>
                 </div>
@@ -139,7 +147,8 @@ export default class MyRecipes extends React.Component {
       {this.props.chosenRecipes.map((tile,index) => (
         <GridTile
           key={index}
-          title={<IconButton className="tile-icons" onTouchTap={this.handleAddToCart.bind(this, tile)}><LocalGrocery color="white"/></IconButton>}
+          title={<IconButton className="tile-icons" onTouchTap={this.handleTouchTap.bind(this)}><LocalGrocery color="white"/></IconButton>}
+          subtitle={tile.recipename}
           actionPosition="right"
           actionIcon={<IconButton className="tile-icons" onTouchTap={this.handleAction.bind(this, tile)}><CameraEnhance color="white"/></IconButton>}>
           <img src={tile.userimage || tile.recipeimage} />
@@ -151,6 +160,12 @@ export default class MyRecipes extends React.Component {
       recipeid={this.state.currRecipeId}
       increaseUploadCount={this.increaseUploadCount}
       />
+    <Snackbar
+      open={this.state.open}
+      message="Item added to cart"
+      autoHideDuration={4000}
+      onRequestClose={this.handleRequestClose.bind(this)}
+    />
     </div>
     </div>
     )
