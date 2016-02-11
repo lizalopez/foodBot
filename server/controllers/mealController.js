@@ -82,7 +82,7 @@ module.exports = {
 		});
 		userRecipesQuery.on("end", function () {
 			var sendData = {recipeView: userRecipes}
-			console.log('data being sent back',sendData)
+			// console.log('data being sent back',sendData)
 			res.send(sendData);
 			client.end();
 		});
@@ -106,7 +106,7 @@ module.exports = {
 			rejected.forEach(function (recipeID) {
 				var addRejectedQuery = client.query("INSERT INTO userRecipes (profileid, recipeid, created, liked) VALUES (" + uid + "," + recipeID + ", false, false)", function(err, data){
 					if (err) {
-						console.log('error inserting userRecipes rejected');
+						console.log('error inserting userRecipes rejected', err);
 					}
 				});
 				addRejectedQuery.on('end', function() {
@@ -119,7 +119,7 @@ module.exports = {
 				console.log(recipeID, "this is ID", typeof recipeID, "type of", uid, "USER ID IS....")
 				var addLikedQuery = client.query("INSERT INTO userRecipes (profileid, recipeid, created, liked) VALUES (" + uid + "," + recipeID + ", false, true)", function(err, data){
 					if (err) {
-						console.log('error inserting userRecipes liked');
+						console.log('error inserting userRecipes liked', err);
 					}
 				});
 				addLikedQuery.on('end', function() {
