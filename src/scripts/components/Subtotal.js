@@ -13,14 +13,19 @@ export default class Subtotal extends React.Component {
     constructor(props) {
       super(props);
       this.buttonStyles = {
+        position: 'relative',
         width: '40px', 
-        height: '70px'
+        height: '70px',
+        bottom: '25px',
+        left: '148px'
       }
       this.buttonBackgroundStyle = {
         width: '80px',
       }
       this.raisedButton = {
-        verticalAlign: 'center'
+        position: 'relative',
+        right: '105px',
+        bottom: '54px'
       }
     }
 
@@ -44,9 +49,9 @@ export default class Subtotal extends React.Component {
                 cart={this.props.cart} 
                 subtotal={this.props.total}/>
           </Modal.Body>
-          <Modal.Footer>
+          <Modal.Footer style = {{height: "70px"}}> 
           <RaisedButton label="Keep Swiping" style={this.raisedButton} secondary={true} onTouchTap={this.props.saveMatch} icon={<PlayCircleOutline />} backgroundColor="#4B78CB"/>  
-          <IconButton style = {this.buttonBackgroundStyle} iconStyle={this.buttonStyles} onTouchTap={this.props.goCheckout}><ShoppingCart color="#B2240B"/></IconButton> 
+          <IconButton style={this.buttonBackgroundStyle} iconStyle={this.buttonStyles} onTouchTap={this.props.goCheckout}><ShoppingCart color="#B2240B"/></IconButton> 
           </Modal.Footer>
           </Modal> 
       )
